@@ -1,0 +1,25 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "linterOptions": {
+      "exclude": [
+        "**/__test__/**",
+        "**/test/**"
+      ]
+    },
+    "jsRules": {},
+    "rules": {
+      "only-arrow-functions": false,
+      "no-angle-bracket-type-assertion": false,
+      "array-type": false,
+      "object-literal-shorthand": false,
+      "variable-name": false,
+      "adjacent-overload-signatures": false,
+      "no-unused-expression": false,
+      "no-string-literal": false,
+      "typedef": [ true, "call-signature", "arrow-call-signature" ]
+    },
+    "rulesDirectory": []
+}

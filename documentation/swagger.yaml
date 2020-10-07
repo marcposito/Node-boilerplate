@@ -1,0 +1,294 @@
+openapi: 3.0.0
+
+info:
+  description: "NodeJS Boilerplate Microservice"
+  version: "1.0.0"
+  title: "NodeJS Boilerplate MS"
+  contact:
+    email: "support@cornerjob.com"
+
+servers:
+  - url: http://ms.cornerjob-pre.internal:5840
+    description: Microservice running at pre environment
+
+paths:
+  /ping:
+    get:
+      tags:
+        - ping
+      summary: Check if service is up
+
+      responses:
+        '200':
+          description: Ping returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ping'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+
+  /example:
+    post:
+      tags:
+        - example
+      summary: Creates a example
+      parameters:
+        - name: x-auth-secret
+          in: header
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Body to create the example
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exampleInput'
+      responses:
+        '200':
+          description: The created example
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/example'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        '500':
+          description: Internal server error
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /example/:id:
+    get:
+      tags:
+        - example
+      summary: Get an example
+      parameters:
+        - name: x-auth-secret
+          in: header
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the example
+      responses:
+        '200':
+          description: The updated example
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/example'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Internal server error
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/500'
+
+    put:
+      tags:
+        - example
+      summary: Updates a example
+      parameters:
+        - name: x-auth-secret
+          in: header
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the example
+      requestBody:
+        description: Body to update the example
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exampleInput'
+      responses:
+        '200':
+          description: The updated example
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/example'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Internal server error
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/500'
+
+    delete:
+      tags:
+        - example
+      summary: Delete an example
+      parameters:
+        - name: x-auth-secret
+          in: header
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the example
+      responses:
+        '204':
+          description: Example has been removed
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Internal server error
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/500'
+
+components:
+  schemas:
+    403:
+      type: 'object'
+      required:
+        - 'error'
+      properties:
+        error:
+          type: "string"
+          description: Message error
+          example: "Invalid secret"
+
+    404:
+      type: 'object'
+      required:
+        - 'message'
+      properties:
+        message:
+          type: "string"
+          description: Message error
+          example: "Resource not found"
+
+    500:
+      type: 'string'
+      example: 'Internal Server Error'
+
+    ping:
+      type: string
+      example: 'pong'
+
+    exampleInput:
+      type: 'object'
+      required:
+        - field1
+        - field2
+        - field3
+      properties:
+        field1:
+          type: 'string'
+          description: field1 of the example
+          example: 'field1'
+        field2:
+          type: 'number'
+          description: field2 of the example
+          example: 2
+        field3:
+          type: 'string'
+          description: field3 of the example
+          example: 'field3'
+        optField:
+          type: 'string'
+          description: Optional field of the example
+          example: 'optField'
+
+    example:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+          description: enabledService id
+          example: '94741ee4-0076-4aaf-af62-22c4838c500f'
+        field1:
+          type: 'string'
+          description: field1 of the example
+          example: 'field1'
+        field2:
+          type: 'number'
+          description: field2 of the example
+          example: 2
+        field3:
+          type: 'string'
+          description: field3 of the example
+          example: 'field3'
+        optField:
+          type: 'string'
+          description: Optional field of the example
+          example: 'optField'
+        createdAt:
+          type: 'string'
+          description: Date of example creation
+          example: '2020-08-14T13:25:19.147Z'
+        updatedAt:
+          type: 'string'
+          description: Date of the last example update
+          example: '2020-08-14T13:25:19.147Z'
+
+tags:
+  - name: ping
+    description: Endpoinds to check the health of the microservice
+
+  - name: example
+    description: Example model for show the usage of the microservice
